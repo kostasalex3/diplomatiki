@@ -1,0 +1,60 @@
+DAC_CML_BIAS_0 = 1000
+Total CRC Errors: 260
+Total CRC Format Errors: 260
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 900
+Total CRC Errors: 256
+Total CRC Format Errors: 256
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 800
+Total CRC Errors: 266
+Total CRC Format Errors: 266
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 700
+Total CRC Errors: 225
+Total CRC Format Errors: 225
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 600
+Total CRC Errors: 223
+Total CRC Format Errors: 223
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 500
+Total CRC Errors: 258
+Total CRC Format Errors: 258
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 400
+Total CRC Errors: 250
+Total CRC Format Errors: 250
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 300
+Total CRC Errors: 222
+Total CRC Format Errors: 222
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 200
+Total CRC Errors: 260
+Total CRC Format Errors: 260
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 100
+Total CRC Errors: 292
+Total CRC Format Errors: 292
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 95
+Total CRC Errors: 257
+Total CRC Format Errors: 257
+BERTest Frames with Errors: 0
+========================================
+DAC_CML_BIAS_0 = 90
+Total CRC Errors: 45990
+Total CRC Format Errors: 187014
+BERTest Frames with Errors: 10
+========================================
