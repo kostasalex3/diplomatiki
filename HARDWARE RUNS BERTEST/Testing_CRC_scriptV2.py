@@ -3,7 +3,6 @@ import subprocess
 import shutil
 import time
 
-# ANSI escape codes for color
 class Colors:
     RESET = "\033[0m"
     BOLD_GREEN = "\033[1;32m"
@@ -26,7 +25,6 @@ def strip_ansi_escape_codes(text):
     return ansi_escape.sub('', text)
 
 def clean_crc_line(line):
-    """Remove unnecessary prefixes like timestamps and markers from CRC lines."""
     line = re.sub(r'\|.*?\|[A-Z]\|', '', line).strip()
     return line
 
@@ -49,7 +47,6 @@ def run_pixelalive_for_one_hour(target_xml, log_file, dac_cml_bias):
         pixelalive_output = run_command(f"CMSITminiDAQ -f {target_xml} -c pixelalive")
         duration_pixelalive = time.time() - start_time
 
-        # Extract CRC information from pixelalive scan output
         crc_error_line = ""
         crc_format_error_line = ""
         for line in pixelalive_output.splitlines():
@@ -58,7 +55,6 @@ def run_pixelalive_for_one_hour(target_xml, log_file, dac_cml_bias):
             if "CRC FORMAT ERRORS ARE" in line:
                 crc_format_error_line = clean_crc_line(line)
 
-        # Log results for each pixelalive run
         log_results(
             log_file,
             f"PixelAlive Test at DAC_CML_BIAS_0 = {dac_cml_bias} (Run #{pixelalive_test_count + 1})",
@@ -74,7 +70,7 @@ def run_pixelalive_for_one_hour(target_xml, log_file, dac_cml_bias):
         total_pixelalive_duration += duration_pixelalive
         pixelalive_test_count += 1
 
-        # Avoid overshooting 1 hour
+        # avoid overshooting 1 hour
         if total_pixelalive_duration + 16.10 > 3600:
             break
 
@@ -92,7 +88,6 @@ def main():
     total_start_time = time.time()
     dac_cml_bias = start_bias
 
-    # Step 1: Run reset only once at the start
     print(f"{Colors.CYAN}Resetting DAQ with cmsittxt.sh...{Colors.RESET}")
     run_command("./cmsittxt.sh")
     print(f"{Colors.CYAN}Running reset command...{Colors.RESET}")
@@ -101,17 +96,14 @@ def main():
     while dac_cml_bias >= end_bias:
         print(f"{Colors.BOLD_GREEN}\nRunning with DAC_CML_BIAS_0 = {dac_cml_bias}{Colors.RESET}")
 
-        # Step 2: Run pixelalive for up to 1 hour
         print(f"{Colors.CYAN}Running pixelalive scans for 1 hour...{Colors.RESET}")
         run_pixelalive_for_one_hour(target_xml, log_file, dac_cml_bias)
 
-        # Step 3: Run bertest for 1 hour
         print(f"{Colors.CYAN}Running bertest scan...{Colors.RESET}")
         start_time = time.time()
         bertest_output = run_command("CMSITminiDAQ -f CMSIT_RD53Bv2.xml -c bertest")
         duration_bertest = time.time() - start_time
 
-        # Extract CRC information from bertest scan output
         crc_error_line = ""
         crc_format_error_line = ""
         for line in bertest_output.splitlines():
@@ -120,7 +112,7 @@ def main():
             if "CRC FORMAT ERRORS ARE" in line:
                 crc_format_error_line = clean_crc_line(line)
 
-        # Log results for bertest
+      
         log_results(
             log_file,
             f"BERTest at DAC_CML_BIAS_0 = {dac_cml_bias}",
@@ -133,7 +125,7 @@ def main():
         print(f"{Colors.MAGENTA}CRC Errors: {crc_error_line}{Colors.RESET}")
         print(f"{Colors.MAGENTA}CRC Format Errors: {crc_format_error_line}{Colors.RESET}")
 
-        # Step 4: Adjust DAC_CML_BIAS_0 decrement logic
+       
         decrement = low_step if dac_cml_bias <= 100 else high_step
         new_bias_value = dac_cml_bias - decrement
         with open(target_xml, "r") as file:
@@ -144,7 +136,6 @@ def main():
 
         dac_cml_bias -= decrement
 
-    # Print and log total elapsed time
     total_duration = time.time() - total_start_time
     with open(log_file, "a") as f:
         f.write(f"\nTotal Elapsed Time: {total_duration:.2f} seconds\n")
